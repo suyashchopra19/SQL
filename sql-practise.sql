@@ -115,8 +115,18 @@ movies.year % 4 = 0
 order by movies.name;
 
 
+#set temp = 
 
 
+select movies.name, actors.first_name, actors.last_name from actors
+INNER JOIN
+roles on roles.actor_id = actors.id
+INNER JOIN
+movies on roles.movie_id = movies.id
+INNER JOIN
+movies_genres on movies.id = movies_genres.movie_id
+where first_name = 'Kevin' and last_name = 'Bacon' 
+and movies_genres.genre = 'Drama';
 
 
 
