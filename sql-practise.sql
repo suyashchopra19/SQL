@@ -75,6 +75,45 @@ FROM actors INNER JOIN
 
 
 
+SELECT genre, Count(*) as num from movies_genres
+inner JOIN
+movies on movies_genres.movie_id = movies.id
+group by genre order by num;
+
+select first_name, last_name
+FROM actors INNER JOIN 
+	roles
+	ON roles.actor_id= actors.id INNER JOIN
+	movies
+	ON  roles.movie_id = movies.id
+	where movies.name = 'Braveheart' and
+	movies.year = 1995
+	ORDER BY actors.last_name;
+
+
+
+select first_name, last_name
+FROM directors INNER JOIN 
+	roles
+	ON roles.actor_id= actors.id INNER JOIN
+	movies
+	ON  roles.movie_id = movies.id
+	where movies.name = 'Braveheart' and
+	movies.year = 1995
+	ORDER BY actors.last_name;
+
+
+select first_name, last_name, movies.name, movies.year from directors
+inner join 
+movies_directors on directors.id = movies_directors.director_id
+inner join
+movies on movies.id = movies_directors.movie_id
+inner join
+movies_genres on movies_genres.movie_id = movies.id
+where movies_genres.genre = 'Film-Noir' and
+movies.year % 4 = 0
+order by movies.name;
+
 
 
 
