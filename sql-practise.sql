@@ -117,8 +117,16 @@ order by movies.name;
 
 #set temp = 
 
-
-select movies.name, actors.first_name, actors.last_name from actors
+SELECT movies.name, actors.first_name, actors.last_name
+FROM actors 
+INNER JOIN 
+roles ON 
+actors.id=roles.actor_id
+INNER JOIN movies
+ON roles.movie_id = movies.id
+WHERE movies.id IN(
+select movies.id 
+from actors
 INNER JOIN
 roles on roles.actor_id = actors.id
 INNER JOIN
@@ -126,7 +134,45 @@ movies on roles.movie_id = movies.id
 INNER JOIN
 movies_genres on movies.id = movies_genres.movie_id
 where first_name = 'Kevin' and last_name = 'Bacon' 
-and movies_genres.genre = 'Drama';
+and movies_genres.genre = 'Drama'
+) AND first_name != 'Kevin' AND last_name!= 'Bacon'
+LIMIT 100;
+
+SELECT first_name,last_name, actors.id
+FROM actors 
+INNER JOIN roles 
+ON roles.actor_id = actors.id
+INNER JOIN movies
+ON roles.movie_id = movies.id
+WHERE movies.year<1900
+INTERSECT
+SELECT first_name,last_name, actors.id
+FROM actors 
+INNER JOIN roles 
+ON roles.actor_id = actors.id
+INNER JOIN movies
+ON roles.movie_id = movies.id
+WHERE movies.year>2000
+ORDER BY last_name;
+
+SELECT actors.first_name,actors.last_name, movies.name,movies.year,COUNT(*)
+FROM actors 
+INNER JOIN roles 
+ON roles.actor_id = actors.id
+INNER JOIN movies
+ON roles.movie_id = movies.id
+GROUP BY movies.id , actor_id
+HAVING COUNT(*)>=5 AND movies.year>1990;
+
+
+
+
+
+
+
+
+
+
 
 
 
